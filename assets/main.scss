@@ -1,0 +1,64 @@
+---
+# Only the main Sass file needs front matter
+---
+
+@import "minima";
+
+.post-content {
+  counter-reset: figure table;
+}
+
+.post-content h2 {
+  margin-top: 2.5em;
+}
+
+.post-content h3 {
+  margin-top: 2em;
+}
+
+.post-content h4 {
+  margin-top: 1.5em;
+}
+
+figure.numbered {
+  text-align: center;
+  counter-increment: figure;
+  margin: 2em auto;
+}
+
+figure.numbered img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+figure.numbered figcaption {
+  text-align: center;
+  margin-top: 0.5em;
+  font-style: italic;
+}
+
+figure.numbered figcaption::before {
+  content: "Figure " counter(figure) ". ";
+  font-weight: bold;
+}
+
+
+
+.table-caption {
+  text-align: center;
+  margin-bottom: 0.5em;
+  font-style: italic;
+  counter-increment: table;
+}
+
+.table-caption::before {
+  content: "Table " counter(table) ". ";
+  font-weight: bold;
+}
+
+table.numbered-table {
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
+}

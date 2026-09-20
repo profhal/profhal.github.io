@@ -1,10 +1,13 @@
 ---
-# Feel free to add content and custom Front Matter to this file.
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
-layout: home
+layout: page
+title: Musings
 ---
 
-#Musings
+Things I've written about because curiosity is sufficient justification.
 
-This is my local Jekyll Playground.
+## Topics
+
+- [Atelier]({{ '/atelier/' | relative_url }})
+- [Programming]({{ '/programming/' | relative_url }})
+
+
