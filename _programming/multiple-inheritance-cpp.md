@@ -228,7 +228,7 @@ class D : public B, public C {};
 The corresponding hierarchy forms a diamond as shown in Figure 1.
 
 <figure class="numbered">
-  <img src="/assets/programming/assets/programming/multiple-inheritance-cpp/diamondProblem.png"
+  <img src="/assets/programming/multiple-inheritance-cpp/diamondProblem.png"
        alt="A UML diagram showing the diamond formed by class A, B, C, and D.">
   <figcaption>
     A UML diagram showing the diamond formed by class A, B, C, and D.
