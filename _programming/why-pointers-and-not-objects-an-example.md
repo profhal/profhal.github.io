@@ -15,7 +15,7 @@ As the system progresses, updates to the objects will take place (e.g., an emplo
 To help illustrate this, we will use a simple HR System Application (C++ implementation: [HRApp](https://drive.google.com/file/d/1KP3Fms0nQ1yffIVKBJl4g0pgOH0qYevU/view?usp=drive_link)). The main system interface is managed by the class `HumanResourcesApp` which interacts with an `EmployeeDatabase`, the thing that manages all of the `Employee` objects in the system, and a `TeamManager`, the thing that manages all the `Team` objects in the system. The relationship between these classes can be seen in the UML diagram in Figure 1.
 
 <figure class="numbered">
-  <img src="/assets/images/programming/hr_uml_diagram.jpg"
+  <img src="/assets/programming/why-pointers-and-not-objects-an-example/hr_uml_diagram.jpg"
        alt="The UML class diagram for the HR App system.">
   <figcaption>
     The UML class diagram for the HR App system.
