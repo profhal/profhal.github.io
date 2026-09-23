@@ -25,7 +25,7 @@ public:
 
     virtual ~X() {};
 
-    virtual void print() { std::cout << “X” << std::endl; }
+    virtual void print() { std::cout << "X" << std::endl; }
 
 };
 
@@ -35,7 +35,7 @@ public:
 
     virtual ~Y() {};
 
-    virtual void print() { std::cout << “X” << std::endl; }
+    virtual void print() { std::cout << "X" << std::endl; }
 
 };
 

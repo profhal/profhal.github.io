@@ -33,13 +33,18 @@ plugins:
   - jekyll-feed
 
 collections:
+  atelier:
+    output: true
+    permalink: /atelier/:name/    
+
+  math:
+    output: true
+    permalink: /math/:name/
+
   programming:
     output: true
     permalink: /programming/:name/
 
-  atelier:
-    output: true
-    permalink: /atelier/:name/    
 
 # Exclude from processing.
 # The following items will not be processed, by default.

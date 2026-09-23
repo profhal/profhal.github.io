@@ -139,7 +139,7 @@ int main() {
 
     // INT LIST : REBUILD
     //
-    cout << “INT LIST” << endl;
+    cout << "INT LIST" << endl;
 
     start = chrono::high_resolution_clock::now();
 
@@ -151,9 +151,9 @@ int main() {
 
     elapsedUSec = chrono::duration_cast(elapsed);
 
-    cout << “Time to rebuild: “ 
+    cout << "Time to rebuild: " 
          << elapsedUSec.count() 
-         << “ microseconds.” 
+         << " microseconds." 
          << endl;
 
 
@@ -169,9 +169,9 @@ int main() {
 
     elapsedUSec = chrono::duration_cast(elapsed);
 
-    cout << “Time to erase  : “ 
+    cout << "Time to erase  : " 
          << elapsedUSec.count() 
-         << “ microseconds.” 
+         << " microseconds." 
          << endl;
 
     return 0;
@@ -188,7 +188,7 @@ Running this program on a Mac with an Intel 3.8 GHz i7 processor, and varying th
 |  rebuild         | 29 μs        |   137 μs     |  146 μs      |  286 μs       |
 |  vector<>::erase | 24 μs        |   84 μs      |  155 μs      |  448 μs       |
 
- We see that in some cases ``vector<>::erase()` is more efficient, but as the list size and number of elements to be removed grows, rebuilding seems to be the better choice.
+ We see that in some cases `vector<>::erase()` is more efficient, but as the list size and number of elements to be removed grows, rebuilding seems to be the better choice.
 
 
  ## Managing a Vector of Large Objects
