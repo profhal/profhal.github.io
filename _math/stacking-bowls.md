@@ -11,7 +11,7 @@ It turns out in my case, yes. But what about the more general case? Let's formal
 
 <div class="vspace"></div>
 
-We could prove answer this question directly, but before doing so, let's look more closely at the assumptions as we can do a little better.
+We could answer this question directly, but before doing so, let's look more closely at the assumptions as we can do a little better.
 
 The original problem assumes that every color occurs the same number of times and that every stack contains the same number of bowls. Neither assumption is necessary. What really matters is how many bowls there are of the most frequently occurring color and whether there are enough bowls to put at least one in each stack.
 
