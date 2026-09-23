@@ -3,11 +3,11 @@ layout: page
 title: Stacking Bowls
 ---
 
-While putting dishes away, a question occurred to me. I have 12 bowls in 6 colors (2 each). The cupboard height limits stacks of bowls to 4. So, there are three stacks. The question was, "Can I create stacks where no stack as a repeat color?"
+While putting dishes away, a question occurred to me. I have 12 bowls in 6 colors (2 each). The cupboard height limits stacks of bowls to 4. So, there are three stacks. The question was, "Can I create stacks where no stack has a repeat color?"
 
 It turns out in my case, yes. Let's formalize the above:
 
-**Propositon** Suppose we have $b > 0$ bowls in $c > 0$, with $c \mid b$ and each color having $b/c$ bowls. It is possible to group them into $s$ stacks, $s > 0$, with $s \mid b$, each stack having $b/s$ bowls, such that no stacks contain repeat colors.
+**Question:** Given $b$ bowls in $c$ colors, with an equal number of each color, can they be divided into $s$ equal-sized stacks with no repeated color?
 
 <div class="vspace"></div>
 
@@ -20,7 +20,7 @@ This leads to a more general result, Theorem 1.
 
 <div class="vspace"></div>
 
-**Theorem 1.** Suppose we have $b>0$ bowls in $c$ colors, where $1\le c\le b$, and let $n_{i}$ be the number of bowls of color $i$ where $0 \le i < c$.  Suppose we want to organize the bowls into $s$ nonempty stacks such that no stack contains a repeated color. It is possilbe to create such stacks if
+**Theorem 1.** Suppose we have $b>0$ bowls in $c$ colors, where $1\le c\le b$, and let $n_{i}$ be the number of bowls of color $i$ where $0 \le i < c$.  Suppose we want to organize the bowls into $s$ nonempty stacks such that no stack contains a repeated color. It is possible to create such stacks if
 
 $$
 \max_{0\le i\le c-1} n_i\le s\le b.
@@ -34,7 +34,7 @@ $$
 \max_{0\le i\le c-1} n_i\le s\le b.
 $$
 
-We have two things to show: each stack is non-empty and no stack has a repeated color. Since we need to demonstrate we *can* create the stacks, we explicit describe the construction.
+We have two things to show: each stack is non-empty and no stack has a repeated color. Since we need to demonstrate we *can* create the stacks, we explicitly describe the construction.
 
 Start by listing the colors, $C_0, C_1, ... C_{c-1}$ and the stacks $S_0, S_1, ... S_{s-1}$. We will create the stacks in the following way: 
 
@@ -52,7 +52,7 @@ We then begin distributing the bowls of color $C_1$ in the same way:
 $$
 \begin{array}{c|cccccccccccc}
 \text{color} & C_0 & C_0 & ... & C_0         &  C_1                  & ... & C_1                  & ... & C_1 \\
-\text{stack} & S_0 & S_1 & ... & S_{n_0 - 1} &  S_{(n_0)\mod{s}} & ... & S_{(n_0 + 2)\mod{s}} & ... & S_{(n_0 + n_1)\mod{s}}\\
+\text{stack} & S_0 & S_1 & ... & S_{n_0 - 1} &  S_{(n_0)\mod{s}} & ... & S_{(n_0 + 2)\mod{s}} & ... & S_{(n_0 + n_1 - 1)\mod{s}}\\
 \end{array}
 $$
 
@@ -86,3 +86,19 @@ S_0 = {A, B, D, E}
 S_1 = {A, C, D, F}
 S_2 = {B, C, E, F}
 ```
+
+<div class="vspace"></div>
+
+One last observation: We have shown the conditions are sufficient to reach the conclusion, but it turns out they are also necessary. That is, we can strengthen this result:
+
+**Theorem 2.** Suppose we have $b>0$ bowls in $c$ colors, where $1\le c\le b$, and let $n_{i}$ be the number of bowls of color $i$ where $0 \le i < c$.
+It is possible to organize the bowls into $s$ nonempty stacks such that no stack contains a repeated color *if and only if*
+
+$$
+\max_{0\le i\le c-1} n_i\le s\le b.
+$$
+
+<div class="vspace"></div>
+
+We'll leave the necessity proof as an exercise.
+
