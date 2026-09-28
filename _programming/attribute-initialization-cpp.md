@@ -42,7 +42,7 @@ Fraction::Fraction()
 Both approaches result in a Fraction being 0/1. If the result is the same, it’s natural to wonder which should be favored and if one is required in certain instances.
 
 
-### Preference: Member InitializationLists
+## 1. Preference: Member Initialization Lists
 As it turns out, member initialization lists are more efficient than initializing attributes within the constructor body. When we do the initialization in the constructor body two things happen:
 
 - the object comes into existence
@@ -53,12 +53,12 @@ This would be akin to the following statements:
 ```cpp
 string name;
 
-name = “Tom”;
+name = "Tom";
 ```
 
 The first line invokes the default `string` constructor, getting the object ready for use, and the second line invokes the `string` assignment operator, `=`. We also know that we can create a `string` using a different constructor, such as the one that takes a c-string,
 
-string name(”Tom”);
+string name("Tom");
 
 This invokes only the constructor and uses the supplied data to initialize the underlying array of characters.
 
@@ -84,7 +84,7 @@ int main() {
 
     for (int i = 0; i < ATTEMPTS; i++) {
 
-        std::string name(”Tom”);
+        std::string name("Tom");
 
     }
 
@@ -94,9 +94,9 @@ int main() {
         std::chrono::duration_cast<std::chrono::nanoseconds>
                                                    (stop - start);
 
-    std::cout << “string(char*): “
+    std::cout << "string(char*): "
               << duration.count() / ATTEMPTS
-              << “ nanoseconds”
+              << " nanoseconds"
               << std::endl;
 
 
@@ -107,7 +107,7 @@ int main() {
     for (int i = 0; i < ATTEMPTS; i++) {
 
         std::string name;
-        name = “Tom”;
+        name = "Tom";
 
     }
 
@@ -117,9 +117,9 @@ int main() {
         std::chrono::duration_cast<std::chrono::nanoseconds>
                                                    (stop - start);
 
-    std::cout << “string() plus assignment: “
+    std::cout << "string() plus assignment: "
               << duration.count() / ATTEMPTS
-              << “ nanoseconds”
+              << " nanoseconds"
               << std::endl;
 
     return 0;
@@ -140,7 +140,7 @@ On a Mac with an Intel i7-3.8Ghz processor, The results are in Table 1.
 It’s likely that `string` is not an overly complicated class. If a class has more going on with its creation and assignment, the impact could be greater.
 
 
-## How Much of an Impact?
+### 1.1 How Much of an Impact?
 
 Glad you asked. Let’s look at an example where a class’s underlying attribute is large. We will begin with the class `BigBoy`,
 
@@ -194,7 +194,7 @@ public:
 
 Lastly, we run a similar timing program to the one involving strings. Note that we are using large objects so we dial back the number of attempts to 100.
 
-```
+```cpp
 #include <chrono>
 #include <iostream>
 #include <string>
@@ -225,9 +225,9 @@ int main() {
         std::chrono::duration_cast<std::chrono::milliseconds>
                                                    (stop - start);
 
-    std::cout << “Member initialization: “
+    std::cout << "Member initialization: "
               << duration.count() / ATTEMPTS
-              << “ milliseconds”
+              << " milliseconds"
               << std::endl;
 
 
@@ -247,9 +247,9 @@ int main() {
         std::chrono::duration_cast<std::chrono::milliseconds>
                                                    (stop - start);
 
-    std::cout << “Constructor body: “
+    std::cout << "Constructor body: "
               << duration.count() / ATTEMPTS
-              << “ milliseconds”
+              << " milliseconds"
               << std::endl;
 
     return 0;
@@ -268,7 +268,7 @@ Here we can see a significant difference in performance in Table 2. (Again, on a
 {: .numbered-table}
 
 
-### A Note On The Design
+### 1.2 A Note On The Design
 
 We had to provide a default constructor so that `BigBoyCB` would compile. Since we are not using a member initialization list in the `BigBoyCB` example, the compiler would complain.
 
@@ -321,17 +321,17 @@ we see the performance displayed in Table 3.
 The two are very close. This is because creating the object with an empty array is trivial. The times reflect the copying of the underlying attribute.
 
 
-### Attribute Initialization Order
+### 1.3 Attribute Initialization Order
 The order in which attributes are initialized is based on the order in which they are specified in the class declaration. The order in which they are listed in the member initialization list is irrelevant. For more information, see [Initialization Ordering]({% link _programming/initialization-ordering.md %}).
 
 
-## Required Member Intialization Lists
+## 2. Required Member Intialization Lists
 There are two cases when you must use member initilialization lists:
 
 - initializaing constant attributes
 - initializeing reference attributes
 
-### Initializing Constant Attributes
+### 2.1 Initializing Constant Attributes
 Sometimes we want attributes in a class to be constant, but we won’t know it’s value until runtime. Constant attributes need to be initialized via member initialization lists as they cannot be assigned within the constructor body. Consider the following class:
 
 ```cpp
@@ -359,202 +359,8 @@ Student::Student(std::string initId)
        : ID(initId) {}
 ```
 
-### Initializaing static Constant Attributes
-In the previous example, we had to take the approach we did because the constant’s value wasn’t known ahead of time. Also, while `ID` is constant within `Student`, each `Student` instance will have its own `ID`.
 
-Sometimes an attribute is constant and always has the same value. A classic example would be π. Consider a class, `Circle`, which maintains a radius and can provide its area. To calculate area, we need π, but π doesn’t change from `Circle` to `Circle`. In this case, we can use a `static` constant and `static` constants can be set in the class declaration:
-
-```cpp
-class Circle {
-private:
-
-    static const double PI = 3.141592653589793;
-    double radius;
-
-public:
-
-    Circle(double initRadius) : radius(initRadius) {}
-
-    double getArea() ) return { PI * radius * radius; }
-
-};
-```
-
-You can do the same with non-static attributes (constant or otherwise) if you happen to know an appropriate default value (for example, initializing a counter to 0.)
-
-Now, as `static` entities have class scope and so do not require an instance to be accessed, they cannot be initialized in a member initialization list, which are placed on constructors and so involved with creating instances.
-
-#### static Constants Set By Function Calls
-There are times when a `static` constant needs to be defined via a function call. Suppose we are developing a game where we spawn dice, and all dice have the same number of sides, $n$, where $n$ is an integer in the interval [3, 20] (they all [exist in reality](https://www.diceemporium.com/shop/)). However, each run of the game results in different dice of a different size. That is, on one run we spawn 10-sided dice, but on the next run we spawn 15-sided dice. 
-
-This would be the declaration of class `Die`:
-
-```cpp
-class Die {
-public:
-
-    static const int SIDES;
-
-private:
-
-    int currentFace;
-
-public:
-
-    Die();
-
-    int getCurrentFace() const;
-
-    // Updates the current face and returns the value.
-    //
-    int roll();
-
-};
-```
-
-We need to set the value of `SIDES` and we handle this in implementation file:
-
-```cpp
-const int Die::SIDES = <some value>
-```
-
-Since we want the value to be random, we might keep it simple and invoke `rand()`. A first attempt might be to simply write
-
-```cpp
-const int Die::SIDES = (rand() % 18) + 3; // range 3-20
-```
-
-However, doing this doesn’t give you randomness from run to run. The problem is that the random number generator needs to be seeded. A seed gives rise to a given sequence of numbers. Using the same seed will result in those same numbers appearing in the same order. If you don’t provide a seed, the generator is seeded with the value 1. This is what is happening: Every run uses the seed 1.
-
-Since you can’t seed the random number generator and get a random number as a single expression, we need to create a function that does. Here is what the implementation for Die might look like after adding such a function:
-
-```cpp
-#include “Die.h”
-
-#include <cmath>
-#include <ctime>
-
-int getRandomNumber(int min, int max) {
-
-    srand(time(0));
-
-    return rand() % (max - min + 1) + min;
-
-}
-
-const int Die::SIDES = getRandomNumber(3, 20);
-
-Die::Die() {
-    roll();
-}
-
-int Die::getCurrentFace() const {
-    return currentFace;
-}
-
-int Die::roll() {
-    currentFace = rand() % SIDES + 1;
-    return currentFace;
-}
-```
-
-Now, every time you run the program, the dice will haev a different number of sides.
-
-
-#### Problem: We Might be Seeding More Than Once
-With this implementation, the random number generator gets seeded every time `getRandomNumber()` is called. Since it is declared in a `.cpp` file, and we almost never include `.cpp` files, the function’s use is isolated to the file. Further, in the example, the function is only ever called once.
-
-However, this might not be the case in general. What if we need to call the function several times to randomly initialize a set of values. This would be a problem.
-
-Suppose we were creating a video game where NPCs were clones of each other. However, like the number of sides on a die, we want the clones to look different from run to run. Let’s start with the `Clone` header,
-
-```cpp
-class Clone {
-public:
-    static const int EYE_COLOR_INDEX;
-    static const int HAIR_COLOR_INDEX;
-    static const int HAIR_LENGTH_INDEX;
-
-    // other clone attributes, static and non-static
-
-public:
-
-   // Clone operations
-
-};
-```
-
-As with setting `SIDES` for `Die`, we set the values of the various indices in the implementation file, this time with a little help:
-
-```cpp
-#include <cmath>
-#include <ctime>
-#include <string>
-#include <vector>
-
-const std::vector<std::string> EYE_COLOR = 
-                     {”blue”, “green”, “brown”, “black”, “hazel”};
-const std::vector<std::string> HAIR_COLOR = 
-                     {”blonde”, “brown”, “black”, “red”, “gray”};
-
-const std::vector<std::string> HAIR_LENGTH = 
-                     {”short”, “medium”, “long”};
-
-int getRandomNumber(int min, int max) {
-
-    srand(time(0));
-
-    return rand() % (max - min + 1) + min;
-
-}
-
-const int Clone::EYE_COLOR_INDEX = 
-                 getRandomNumber(0, EYE_COLOR.size() - 1);
-
-const int Clone::HAIR_COLOR_INDEX =
-                 getRandomNumber(0, HAIR_COLOR.size() - 1);
-
-const int Clone::HAIR_LENGTH_INDEX =
-                 getRandomNumber(0, HAIR_LENGTH.size() - 1);
-
-// 
-// The rest of the Clone implementation.
-//
-```
-
-This may seem reasonable at first glance, but there is a problem: we are calling `getRandomNumber()` three times and so seeding the generator three times. To make matters worse, those three calls to `getRandomNumber()` will execute in succession very quickly.
-
-The reason we are interested in when the execution happens is that we are seeding the random number generator with the current system clock tick - `time(0)`. This value is updated every second (it represents the number of seconds since midnight, January 1, 1970). Since the execution is so quick, it could be the case that all three calls happen within the same second. This means we reseed with the same value all three times. The impact is that the sequence of numbers is restarted and all three attributes would store the first number in the sequence. As a result, things don’t seem random.
-
-
-#### Solution: Use a static Local Variable
-Like classes, functions can have `static` features as well - `static` local variables. Just as `static` attributes are shared across all instances of a class, a `static` local variable is shared across all invocations of a function. While `static` local variables aren’t common, here may arguably be a good use.
-
-We only need to make a simple change to the function `getRandomValue()`:
-
-```cpp
-int getRandomNumber(int min, int max) {
-
-    static bool firstCall = true; // <-- line of interest
-
-    if (firstCall) {
-
-        srand(time(0));
-        firstCall = false;
-    
-    }
-
-    return rand() % (max - min + 1) + min;
-
-}
-```
-
-By declaring `firstCall` to be `static`, it is initialized to `true` on the first call. This allows the `if` statement to be entered, where we do the seeding and toggle `firstCall` to `false`, indicating a call has already happened. On subsequent calls, the `static` variable is not reinitialized so it will remain `false` forever. In this case, we only seed the generator once and things will work.
-
-#### For the Advanced Reader
-We still have a problem: This approach isn’t threadsafe. But that’s a different conversation.
-
-### Initializing Reference Attributes
+### 2.2 Initializing Reference Attributes
 
 There are times when a class needs to interact with an object maintained elsewhere in the system. It would not be uncommon to use a pointer,
 
@@ -603,18 +409,263 @@ ServiceUser::ServiceUser(Service &initService)
            : service(initService) {}
 ```
 
-A feature of reference attributes is that once the attribute is set, it cannot be changed. So, it acts like a constant. Further, the only way to create an instance is to supply an actual `Service` object, so we no longer have to worry about the “null service”.
+A feature of reference attributes is that once the attribute is set, it cannot be changed. So, it acts like a constant. Further, the only way to create an instance is to supply an actual `Service` object, so we no longer have to worry about the "null service".
 
 
+## 3 Initilaizing static Attributes
+
+Intializing `static` attributes is handled a little little differently. There are two cases:
+
+- constant static attributes
+- non-constant static attributes
+
+### 3.1 Initializaing static Constant Attributes
+In the previous example, we had to take the approach we did because the constant’s value wasn’t known ahead of time. Also, while `ID` is constant within `Student`, each `Student` instance will have its own `ID`.
+
+Sometimes an attribute is constant and always has the same value. A classic example would be π. Consider a class, `Circle`, which maintains a radius and can provide its area. To calculate area, we need π, but π doesn’t change from `Circle` to `Circle`. In this case, we can use a `static` constant and `static` constants can be set in the class declaration:
+
+```cpp
+class Circle {
+private:
+
+    static const double PI = 3.141592653589793;
+    double radius;
+
+public:
+
+    Circle(double initRadius) : radius(initRadius) {}
+
+    double getArea() ) return { PI * radius * radius; }
+
+};
+```
+
+You can do the same with non-static attributes (constant or otherwise) if you happen to know an appropriate default value (for example, initializing a counter to 0.)
+
+Now, as `static` entities have class scope and so do not require an instance to be accessed, they cannot be initialized in a member initialization list, which are placed on constructors and so involved with creating instances.
+
+#### 3.1.1 static Constants Set By Function Calls
+There are times when a `static` constant needs to be defined via a function call. Suppose we are developing a game where we spawn dice, and all dice have the same number of sides, $n$, where $n$ is an integer in the interval [3, 20] (they all [exist in reality](https://www.diceemporium.com/shop/)). However, each run of the game results in different dice of a different size. That is, on one run we spawn 10-sided dice, but on the next run we spawn 15-sided dice. 
+
+This would be the declaration of class `Die`:
+
+```cpp
+class Die {
+public:
+
+    static const int SIDES;
+
+private:
+
+    int currentFace;
+
+public:
+
+    Die();
+
+    int getCurrentFace() const;
+
+    // Updates the current face and returns the value.
+    //
+    int roll();
+
+};
+```
+
+We need to set the value of `SIDES` and we handle this in implementation file:
+
+```cpp
+const int Die::SIDES = <some value>
+```
+
+Since we want the value to be random, we might keep it simple and invoke `rand()`. A first attempt might be to simply write
+
+```cpp
+const int Die::SIDES = (rand() % 18) + 3; // range 3-20
+```
+
+However, doing this doesn’t give you randomness from run to run. The problem is that the random number generator needs to be seeded. A seed gives rise to a given sequence of numbers. Using the same seed will result in those same numbers appearing in the same order. If you don’t provide a seed, the generator is seeded with the value 1. This is what is happening: Every run uses the seed 1.
+
+Since you can’t seed the random number generator and get a random number as a single expression, we need to create a function that does. Here is what the implementation for Die might look like after adding such a function:
+
+```cpp
+#include "Die.h"
+
+#include <cmath>
+#include <ctime>
+
+int getRandomNumber(int min, int max) {
+
+    srand(time(0));
+
+    return rand() % (max - min + 1) + min;
+
+}
+
+const int Die::SIDES = getRandomNumber(3, 20);
+
+Die::Die() {
+    roll();
+}
+
+int Die::getCurrentFace() const {
+    return currentFace;
+}
+
+int Die::roll() {
+    currentFace = rand() % SIDES + 1;
+    return currentFace;
+}
+```
+
+Now, every time you run the program, the dice will haev a different number of sides.
 
 
+#### 3.1.2 Problem: We Might be Seeding More Than Once
+With this implementation, the random number generator gets seeded every time `getRandomNumber()` is called. Since it is declared in a `.cpp` file, and we almost never include `.cpp` files, the function’s use is isolated to the file. Further, in the example, the function is only ever called once.
+
+However, this might not be the case in general. What if we need to call the function several times to randomly initialize a set of values. This would be a problem.
+
+Suppose we were creating a video game where NPCs were clones of each other. However, like the number of sides on a die, we want the clones to look different from run to run. Let’s start with the `Clone` header,
+
+```cpp
+class Clone {
+public:
+    static const int EYE_COLOR_INDEX;
+    static const int HAIR_COLOR_INDEX;
+    static const int HAIR_LENGTH_INDEX;
+
+    // other clone attributes, static and non-static
+
+public:
+
+   // Clone operations
+
+};
+```
+
+As with setting `SIDES` for `Die`, we set the values of the various indices in the implementation file, this time with a little help:
+
+```cpp
+#include <cmath>
+#include <ctime>
+#include <string>
+#include <vector>
+
+const std::vector<std::string> EYE_COLOR = 
+                     {"blue", "green", "brown", "black", "hazel"};
+const std::vector<std::string> HAIR_COLOR = 
+                     {"blonde", "brown", "black", "red", "gray"};
+
+const std::vector<std::string> HAIR_LENGTH = 
+                     {"short", "medium", "long"};
+
+int getRandomNumber(int min, int max) {
+
+    srand(time(0));
+
+    return rand() % (max - min + 1) + min;
+
+}
+
+const int Clone::EYE_COLOR_INDEX = 
+                 getRandomNumber(0, EYE_COLOR.size() - 1);
+
+const int Clone::HAIR_COLOR_INDEX =
+                 getRandomNumber(0, HAIR_COLOR.size() - 1);
+
+const int Clone::HAIR_LENGTH_INDEX =
+                 getRandomNumber(0, HAIR_LENGTH.size() - 1);
+
+// 
+// The rest of the Clone implementation.
+//
+```
+
+This may seem reasonable at first glance, but there is a problem: we are calling `getRandomNumber()` three times and so seeding the generator three times. To make matters worse, those three calls to `getRandomNumber()` will execute in succession very quickly.
+
+The reason we are interested in when the execution happens is that we are seeding the random number generator with the current system clock tick - `time(0)`. This value is updated every second (it represents the number of seconds since midnight, January 1, 1970). Since the execution is so quick, it could be the case that all three calls happen within the same second. This means we reseed with the same value all three times. The impact is that the sequence of numbers is restarted and all three attributes would store the first number in the sequence. As a result, things don’t seem random.
 
 
+#### 3.1.3 Solution: Use a static Local Variable
+Like classes, functions can have `static` features as well - `static` local variables. Just as `static` attributes are shared across all instances of a class, a `static` local variable is shared across all invocations of a function. While `static` local variables aren’t common, here may arguably be a good use.
+
+We only need to make a simple change to the function `getRandomValue()`:
+
+```cpp
+int getRandomNumber(int min, int max) {
+
+    static bool firstCall = true; // <-- line of interest
+
+    if (firstCall) {
+
+        srand(time(0));
+        firstCall = false;
+    
+    }
+
+    return rand() % (max - min + 1) + min;
+
+}
+```
+
+By declaring `firstCall` to be `static`, it is initialized to `true` on the first call. This allows the `if` statement to be entered, where we do the seeding and toggle `firstCall` to `false`, indicating a call has already happened. On subsequent calls, the `static` variable is not reinitialized so it will remain `false` forever. In this case, we only seed the generator once and things will work.
+
+#### 3.1.4 For the Advanced Reader
+We still have a problem: This approach isn’t threadsafe. But that’s a different conversation.
 
 
+### 3.2 Initializing Non-constant static Attributes
 
+Initialzing non-constant static attributes is handled a little differently than non-constant attributes. Suppose we have the following in `Widget.h`,
 
+```cpp
+class Widget {
+private:
 
+    static int nextAvailableId;
+    int id;
+
+public:
+
+    Widget();
+
+    int getId() const;
+
+};
+```
+
+We would then have the following implementation in `Widget.cpp`,
+
+```cpp
+int Widget::nextAvailableId = 1;
+
+Widget::Widget : id(nextAvailableId++) { }
+
+int Widget::getId() const {
+    return id;
+}
+```
+
+The initialization of the `static` attribute `nextAvailableId` happens on its own independent line.
+ 
+Alternatively, as of C++17, you can also use `inline static`,
+
+```cpp
+class Widget {
+private:
+
+    inline static int nextAvailableId = 1;
+    int id;
+
+public:
+
+    Widget();
+
+    int getId() const;
+
+};
+```
 
 
 
