@@ -272,7 +272,7 @@ Here we can see a significant difference in performance in Table 2. (Again, on a
 
 We had to provide a default constructor so that `BigBoyCB` would compile. Since we are not using a member initialization list in the `BigBoyCB` example, the compiler would complain.
 
-While we did need the default constructor, things would have still worked if we didn’t initialize the vector, `data`. In other words, would could have implemented BigBoy as
+While we did need the default constructor, things would have still worked if we didn’t initialize the vector, `data`. In other words, we could have implemented BigBoy as
 
 ```cpp
 class BigBoy {
@@ -289,7 +289,7 @@ public:
 };
 ```
 
-However, `data` would be trivial to create in the default constructor instance. In it’s current form, we asked for a large collection of values (a million zeroes), which simulates the other constructor’s use in both `BigBoyMIL` and `BigBoyCB`. In both classes, we leverage the non-default constructor and ask for a vector with 1,000,000 values.
+However, `data` would be trivial to create in the default constructor instance. In its current form, we asked for a large collection of values (a million zeroes), which simulates the other constructor’s use in both `BigBoyMIL` and `BigBoyCB`. In both classes, we leverage the non-default constructor and ask for a vector with 1,000,000 values.
 
 In the constructor body approach, `BigBoyCB`, what is happening is `bb` comes into existence, creates a huge vector, then disposes of it, and creates another `BigBoy` object with another million values. If we changed it to
 
@@ -326,7 +326,7 @@ The order in which attributes are initialized is based on the order in which the
 
 
 ## 2. Required Member Intialization Lists
-There are two cases when you must use member initilialization lists:
+There are two cases when you must use member initialization lists:
 
 - initializaing constant attributes
 - initializeing reference attributes
@@ -414,7 +414,7 @@ A feature of reference attributes is that once the attribute is set, it cannot b
 
 ## 3 Initilaizing static Attributes
 
-Intializing `static` attributes is handled a little little differently. There are two cases:
+Initializing `static` attributes is handled a little little differently. There are two cases:
 
 - constant static attributes
 - non-constant static attributes
@@ -518,7 +518,7 @@ int Die::roll() {
 }
 ```
 
-Now, every time you run the program, the dice will haev a different number of sides.
+Now, every time you run the program, the dice will have a different number of sides.
 
 
 #### 3.1.2 Problem: We Might be Seeding More Than Once
@@ -640,7 +640,7 @@ We would then have the following implementation in `Widget.cpp`,
 ```cpp
 int Widget::nextAvailableId = 1;
 
-Widget::Widget : id(nextAvailableId++) { }
+Widget::Widget() : id(nextAvailableId++) { }
 
 int Widget::getId() const {
     return id;
