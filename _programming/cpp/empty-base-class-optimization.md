@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "Empty Base Class Optimization"
+category: cpp
 ---
 
 There are times when we create classes that don’t have any internals and might simply look like

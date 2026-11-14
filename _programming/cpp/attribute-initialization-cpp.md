@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "Attribute Initialization (C++)"
+category: cpp
 ---
 
 Classes will often have attributes and those attributes typically need a default value when an instance is created. One way to initialize the attributes, is to assign values in the constructor. For example, if we have the class
@@ -322,7 +323,7 @@ The two are very close. This is because creating the object with an empty array 
 
 
 ### 1.3 Attribute Initialization Order
-The order in which attributes are initialized is based on the order in which they are specified in the class declaration. The order in which they are listed in the member initialization list is irrelevant. For more information, see [Initialization Ordering]({% link _programming/initialization-ordering.md %}).
+The order in which attributes are initialized is based on the order in which they are specified in the class declaration. The order in which they are listed in the member initialization list is irrelevant. For more information, see [Initialization Ordering]({% link _programming/cpp/initialization-ordering.md %}).
 
 
 ## 2. Required Member Intialization Lists

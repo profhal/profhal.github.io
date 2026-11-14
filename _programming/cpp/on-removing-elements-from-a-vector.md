@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "On Removing Elements from a Vector"
+category: cpp
 ---
 
 In C++, when it comes time to remove elements from a `vector<>`, you have two choices:
@@ -11,7 +12,7 @@ In C++, when it comes time to remove elements from a `vector<>`, you have two ch
 The challenge is that the two can have significantly different performance times. Here, we look at two situations. For the first, we will manage a `vector<int>` and time the removal of a set of values using both the rebuilding approach and the `vector<>::erase()` operation. In the second, we create a larger data structure and do the same thing. As we will see, when using `int`s we get one result and see another when dealing with the larger structure. The point is that you have to consider your application when choosing.
 
 ### Trying The Code
-The below can be integrated into a [single file]({{ '/assets/programming/on-removing-elements-from-a-vector/eraseVersusBuild.cpp' | relative_url }}). The headers required are 
+The below can be integrated into a [single file]({{ '/assets/programming/cpp/on-removing-elements-from-a-vector/eraseVersusBuild.cpp' | relative_url }}). The headers required are 
 
 ```cpp
 #include <algorithm>

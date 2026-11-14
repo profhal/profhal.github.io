@@ -8,6 +8,16 @@ permalink: /programming/
 
 Articles I have written to support my classes.
 
-{% for article in site.programming %}
+## General
+
+{% assign general_articles = site.programming | where: "category", "general" %}
+{% for article in general_articles %}
+- [{{ article.title }}]({{ article.url | relative_url }})
+{% endfor %}
+
+## C++
+
+{% assign cpp_articles = site.programming | where: "category", "cpp" %}
+{% for article in cpp_articles %}
 - [{{ article.title }}]({{ article.url | relative_url }})
 {% endfor %}

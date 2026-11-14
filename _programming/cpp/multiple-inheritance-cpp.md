@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "Multiple Inheritance (C++)"
+category: cpp
 ---
 
 In C++, it is possible for a class to inherit from multiple base classes. This is called multiple inheritance. There are two forms of inheritance:
@@ -35,7 +36,7 @@ public:
 
     virtual ~Y() {};
 
-    virtual void print() { std::cout << "X" << std::endl; }
+    virtual void print() { std::cout << "Y" << std::endl; }
 
 };
 
@@ -62,7 +63,7 @@ It also works with pointers,
 z->X::print();
 ```
 
-In both cases, we have static binding. That is, we are explicitly invoking `X`‘s `print()`. In general, while we can invoke base class behavior in the presence of polymorphism. It is generally not what we want.
+In both cases, we have static binding. That is, we are explicitly invoking `X`‘s `print()`. In general, while we can invoke base class behavior in the presence of polymorphism, it is generally not what we want.
 
 We have a similar situation when the two base classes share a common attribute. For example,
 
@@ -142,70 +143,135 @@ public:
 };
 ```
 
-The general case is not as tidy. Before we begin, we should acknowledge that there is a solution to what we are about to discuss. We are only pointing out where a problem could exist.
-
-Let’s start with a simple base class,
-
-```cpp
-class Employee {
-public:
-
-    virtual ~Employee() {};
-
-    virtual double getWeeklyCompensation() = 0;
-    virtual double setCompensation() = 0;
-    virtual void promote() = 0;
-
-};
-```
-
-We now want to create two different types of `Employees`. The first is a `Manager` that receives an annual salary,
+### Example: Package Model
+Let's consider a more practical example. We start with a base class, `Package`, with two sublcasses, `InsuredPackage` and `Tracked Package`,
 
 ```cpp
-class Manager : public Employee {
+class Package {
 private:
-    double weeklyComp;
+
+    constexpr static double SHIPPING_RATE_PER_POUND = 0.50;
+
+    static int nextId;
+
+    int id;
+    double weightInPounds;
+    string zipCode;
 
 public:
 
-    virtual double getWeeklyCompensation() { return weeklyComp; }
-    virtual double setWeeklyCompensation(double newComp) {
-        weeklyComp = newComp;
+    Package(double initWeightInPounds, string initZipCode)
+        : id(nextId++), 
+          weightInPounds(initWeightInPounds), 
+          zipCode(initZipCode) {
+
     }
 
-    virtual void promote() { weeklyComp *= 1.10; } 
+
+    int getId() const {
+        return id;
+    }
+
+    double getWeight() const {
+        return weight;
+    }
+
+
+    string getZipCode() const {
+        return zipCode;
+    }
+
+    virtual double getShippingCost() const {
+        return weight * SHIPPING_RATE_PER_POUND;
+    }
+
 };
-```
 
-Next, we introduce `Contractor` who is paid based on the hours they work,
-
-```cpp
-class Contractor : public Employee {
+class InsuredPackage : public Package {
 private:
-    double hourlyRate;
+
+    constexpr static double INSURANCE_RATE = 0.10;
+
+    double insuredValue;
 
 public:
-    virtual double getWeeklyCompensation() { 
-        return hourlyRate * 40.0; 
+
+    InsuredPackage(double initWeightInPounds, string initZipCode, double initInsuredValue)
+        : Package(initWeightInPounds, initZipCode), 
+        insuredValue(initInsuredValue) {
+
     }
-    virtual double setWeeklyCompensation(double newComp) { 
-        hourlyRate = newComp / 40.0; 
+
+    double getInsuredValue() const {
+        return insuredValue;
     }
-    
-    virtual void promote() { weeklyComp *= 1.05; } 
-    
+
+    double getShippingCost() const {
+        return Package::getShippingCost() + insuredValue * INSURANCE_RATE;
+    }
+
+};
+
+
+enum Status {WAREHOUSE, TRANIST, DELIVERED};
+
+class TrackedPackage : public Package {
+private:
+
+    constexpr static double TRACKING_FEE = 15.00;
+
+    Status status;
+
+public:
+
+    TrackedPackage(double initWeightInPounds, string initZipCode, Status initStatus) 
+        : Package(initWeightInPounds, initZipCode), 
+          status(initStatus) {
+
+    }
+
+    Status getStatus() const {
+        return status;
+    }
+
+    void updateStats(Status newStatus) {
+        status = newStatus;
+    }
+
+    double getShippingCost() const {
+        return Package::getShippingCost() + TRACKING_FEE;
+    }
+
 };
 ```
 
-By themselves, the subclasses don’t present a problem. However, there is an employee type that causes an issue: A `Consultant` that is also a `Manager`,
+So far so good. However, we run into a problem when we try to use multiple inheritance to model the obvious class, `InsuredTrackedPacakage`, 
 
 ```cpp
-class Consultant : public Manager, public Contractor { };
+class InsuredTrackedPackage : public InsuredPackage, TrackedPackage {
+public:
+
+    double getShippingCost() const {
+        // ????
+    }
+
+};
 ```
 
-As is, it has two underlying compensation models and two underlying promotion models: on one hand it’s a salaried manager and on the other hand its an hourly contractor. It’s not that we can’t resolve this problem through a different design, it’s that the ability to subclass multiple classes/abstract classes leads to more code to manage the situation - and it’s unnecessary. 
+The challenge is in implementing `getShippingCost()`. Initially, we might try
 
-Java doesn’t permit implementation inheritance and both C++ and Java are general-purpose, Turing-complete programming languages. There is no computational behavior realizable in C++ that is fundamentally unrealizable in Java. A language feature available in C++ but absent from Java may make a particular object-oriented design impossible to reproduce directly in Java. This does not, however, establish that the behavior provided by that design cannot be realized by a different Java design.
+```cpp
+double InsuredTrackedPackage::getShippingCost() const {
+    return InsuredPackage::getShippingCost() + TrackedPacakage::getShippingCost();
+}
+```
+
+but that results in two calls to `Package::getShippingCost()` and we are double charging the base cost to ship a package. 
+
+Hopefully it is obvious that we could solve this by redesigning the classes. The point is that multiple implementation inheritance doesn't come without overhead.
+
+Ideally, it's best to avoid multiple inheritance as it isn't a necessity. Consider Java: It doesn’t permit implementation inheritance and both C++ and Java are general-purpose, Turing-complete programming languages. There is no computational behavior realizable in C++ that is fundamentally unrealizable in Java. A language feature available in C++ but absent from Java may make a particular object-oriented design impossible to reproduce directly in Java. This does not, however, establish that the behavior provided by that design cannot be realized by a different Java design.
+
 
 ## Virtual Inheritance
 A common problem with multiple inheritance is the *Diamond Problem*: a class inherits from two base classes that both in turn inherit from a common base class. For example,
@@ -228,7 +294,7 @@ class D : public B, public C {};
 The corresponding hierarchy forms a diamond as shown in Figure 1.
 
 <figure class="numbered">
-  <img src="/assets/programming/multiple-inheritance-cpp/diamondProblem.png"
+  <img src="/assets/programming/cpp/multiple-inheritance-cpp/diamondProblem.png"
        alt="A UML diagram showing the diamond formed by class A, B, C, and D.">
   <figcaption>
     A UML diagram showing the diamond formed by class A, B, C, and D.

@@ -1,15 +1,16 @@
 ---
 layout: page
 title: "Protected/Private Base Classes - Part 2"
+category: cpp
 ---
 
-This is a continuation of the discussion, [Protected/Private Base Classes - Part 1]({% link _programming/protected_private_base_classes_part_01.md %}), where we asserted that using protected or private inheritance to leverage behavior of class is not a good practice. Rather, we argued for composition (having an attribute or an object local to a method).
+This is a continuation of the discussion, [Protected/Private Base Classes - Part 1]({% link _programming/cpp/protected_private_base_classes_part_01.md %}), where we asserted that using protected or private inheritance to leverage behavior of class is not a good practice. Rather, we argued for composition (having an attribute or an object local to a method).
 
 The context of Part 1 did not include polymorphism. So, the interaction was only one direction. The subclass, or composing class, interacted with features of the base class, but the base class didn’t leverage anything about the subclass. Now, let’s introduce polymorphism. In the example, the base class will use its pure virtual operation in the implementation of its concrete operation.
 
 * **Note:** The example we explore doesn’t require subclassing. We could refactor the design so that it’s not needed. What it does is illustrate a situation where it could be leveraged. Again, as discussed in Part 1, we normally prioritize composition over inheritance. However, there are two advanced cases where private subclassing might be preferable and both are discussed below: Empty Base Class Optimization and Initialization Ordering.*
 
-This example evolves the `Logger` and `NetworkManager` example from [Part 1]({% link _programming/protected_private_base_classes_part_01.md %}). In this case, `Logger` will now implement a `log()` operation that needs to include the state of the class making the call. To do this, `Logger::log()` depends on `Logger::getClassState()`.
+This example evolves the `Logger` and `NetworkManager` example from [Part 1]({% link _programming/cpp/protected_private_base_classes_part_01.md %}). In this case, `Logger` will now implement a `log()` operation that needs to include the state of the class making the call. To do this, `Logger::log()` depends on `Logger::getClassState()`.
 
 ```cpp
 class Logger {

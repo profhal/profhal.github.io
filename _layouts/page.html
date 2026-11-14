@@ -1,0 +1,20 @@
+---
+layout: default
+---
+<article class="post">
+
+  <header class="post-header">
+    <h1 class="page-heading">
+    {% if page.display_title %}
+        {{ page.display_title }}
+    {% else %}
+        {{ page.title | escape }}
+    {% endif %}
+    </h1>
+  </header>
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+</article>

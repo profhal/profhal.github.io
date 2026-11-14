@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "cout vs cerr vs clog"
+category: cpp
 ---
 
 You likely have regularly used `cout`, which typically causes something to appear in the terminal. However, that is only part of the story. Technically, `cout` sends output to something called `stdout`. By default, `stdout` routes to the terminal. There are two other streams like `cout` available: `cerr` and `clog`. The former is used for dumping errors and the latter for logging basic events you are interested in tracking. Both `cerr` and `clog` default to `stderr`, which also defaults to the terminal. 

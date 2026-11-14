@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "Virtual Destructors"
+category: cpp
 ---
 
 Declaring destructors `virtual` is important in C++ when using inheritance. The reason we declare operations to be `virtual` is that when they are combined with pointers we can achieve polymorphism.

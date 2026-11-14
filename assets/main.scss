@@ -78,3 +78,54 @@ table.numbered-table {
 .rule-box p:last-child {
   margin-bottom: 0;
 }
+
+.featured-section {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+}
+
+.featured-section > h2:first-child {
+    margin-top: 0;
+}
+
+.chapter-header {
+    margin-bottom: 2rem;
+}
+
+.chapter-series {
+    display: inline-block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.chapter-content h2 {
+    margin-top: 2.5rem;
+    color: #000033;
+}
+
+.chapter-content h3 {
+    margin-top: 2rem;
+    color: #000033;
+}
+
+.chapter-title {
+    margin-top: 0;
+    margin-bottom: 0.25rem;
+}
+
+.chapter-subtitle {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: #666;
+}
+
+.chapter-footer {
+    border-top: 1px solid #ddd;
+    margin-top: 3rem;
+    padding-top: 1rem;
+}

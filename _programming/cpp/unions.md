@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "Unions"
+category: cpp
 ---
 
 Structured data is commonly used in programming languages. It enables us to model real-world concepts effectively by gathering various pieces of information into a common container. In C++, one option is to use a `struct`. For example, we might define a `Image` (`pixels` is a pointer to an array of length `width` * `height`) as
@@ -16,7 +17,7 @@ struct Image {
 When you create an instance on a 64-bit machine (pointers are 64-bit addresses whereas an `int` is often 32-bits), in memory it would be laid out as in FIgure 1.
 
 <figure class="numbered">
-  <img src="/assets/programming/unions/imageInMemory.png"
+  <img src="/assets/programming/cpp/unions/imageInMemory.png"
        alt="The memory layout of the struct Image.">
   <figcaption>
     The memory layout of the `struct` `Image`.
@@ -63,7 +64,7 @@ union PaySource {
 If we create an instance of `PaySource`, where `hours` is a 32-bit `int` and `sales` is a 64-bit `double`, in memory it would be laid out as in Figure 2.
 
 <figure class="numbered">
-  <img src="/assets/programming/unions/paysourceInMemory.png"
+  <img src="/assets/programming/cpp/unions/paysourceInMemory.png"
        alt="The memory layout of the union PaySource.">
   <figcaption>
     The memory layout of the `union` `Paysource`.

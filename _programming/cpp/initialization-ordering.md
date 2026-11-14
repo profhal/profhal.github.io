@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "Initialization Ordering"
+category: cpp
 ---
 
 A benefit of inheriting from a base class is that the base class will be initialized before anything in the subclass. So, if the subclass has attributes that depend on the base class, it’s guaranteed that the base class is ready for use.

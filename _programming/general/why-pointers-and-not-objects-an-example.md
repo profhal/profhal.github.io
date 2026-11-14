@@ -1,6 +1,7 @@
 ---
 layout: page
-title: "Why Pointers and Not Objects? An Example"
+title: "Example: Why Pointers and Not Objects?"
+category: general
 ---
 
 A common question is, *Why do we use pointers as opposed to objects for attributes or in collections?* First, we typically want polymorphic behavior and the only way to achieve that in C++ is by using pointers. However, an inheritance relationship is not nearly as common as a use relationship and we often use pointer variables to track the things associated to a class.
@@ -12,10 +13,10 @@ Objects in our system represent real-world entities. If these objects need to be
 
 As the system progresses, updates to the objects will take place (e.g., an employee needs a name change) and that change has to be observed throughout the system. If we use object variables, we have to know where they are in the system and make sure each one is updated. When using pointers, we update the shared object and all users will observe the change.
 
-To help illustrate this, we will use a simple HR System Application (C++ implementation: [HRApp](https://drive.google.com/file/d/1KP3Fms0nQ1yffIVKBJl4g0pgOH0qYevU/view?usp=drive_link)). The main system interface is managed by the class `HumanResourcesApp` which interacts with an `EmployeeDatabase`, the thing that manages all of the `Employee` objects in the system, and a `TeamManager`, the thing that manages all the `Team` objects in the system. The relationship between these classes can be seen in the UML diagram in Figure 1.
+To help illustrate this, we will use a simple HR System Application (C++ implementation: [HRApp]({{ '/assets/programming/general/why-pointers-and-not-objects-an-example/HRApp.zip' | relative_url }}). The main system interface is managed by the class `HumanResourcesApp` which interacts with an `EmployeeDatabase`, the thing that manages all of the `Employee` objects in the system, and a `TeamManager`, the thing that manages all the `Team` objects in the system. The relationship between these classes can be seen in the UML diagram in Figure 1.
 
 <figure class="numbered">
-  <img src="/assets/programming/why-pointers-and-not-objects-an-example/hr_uml_diagram.jpg"
+  <img src="/assets/programming/general/why-pointers-and-not-objects-an-example/hr_uml_diagram.jpg"
        alt="The UML class diagram for the HR App system.">
   <figcaption>
     The UML class diagram for the HR App system.

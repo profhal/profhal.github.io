@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "Example: static Attribute"
+category: general
 ---
 
 There are times when all instances of a class need to share a resource. For example, suppose you were modeling a swarm of angry bees that needed to chase a bear. You might start with
@@ -168,7 +169,7 @@ int Simple::getRegularX() const {
 }
 ```
 
-For more information on initializing `static` attributes, see section 3.2, *Initializing Non-constant static Attributes*, of [Attribute Initialization]({% link _programming/attribute-initialization-cpp.md %}).
+For more information on initializing `static` attributes, see section 3.2, *Initializing Non-constant static Attributes*, of [Attribute Initialization]({% link _programming/cpp/attribute-initialization-cpp.md %}).
 
 Now, let's create a couple instances and see what happens. If you execute,
 

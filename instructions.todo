@@ -1,0 +1,3 @@
+bundle exec jekyll serve
+
+chruby ruby-3.4.1

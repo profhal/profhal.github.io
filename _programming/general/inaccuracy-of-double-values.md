@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "Inaccuracy of double Values"
+category: general
 ---
 
 Representing floating point values in computer systems is problematic at best. Most languages conform to the IEEE specification called [IEEE 754](https://en.wikipedia.org/wiki/IEEE_754). While we don’t have to be concerned with the details of the specification in order to use floating point values, we do have to understand their limitations.

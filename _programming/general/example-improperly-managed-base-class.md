@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "Example: Improperly Managed Base Class"
+category: general
 ---
 
 Making attributes of a base class protected could lead to problems in a subclass. Consider the classes `Vehicle` and `Car`. Suppose `Vehicle` is defined as
