@@ -6,7 +6,9 @@ chapter: 1
 permalink: /learning-to-play/nim/
 ---
 
-Nim is rather simple game. A pile of sticks is placed between two players. They take turns taking 1, 2, or 3 sticks. The player to pick up the last stick wins. Other versions of the game exist involving multiple piles or playing such that the person to pick up the last stick loses.
+Nim is a rather simple game. A pile of sticks is placed between two players. They take turns taking 1, 2, or 3 sticks. The player to pick up the last stick wins. Other versions of the game exist involving multiple piles or playing such that the person to pick up the last stick loses.
+
+Go play [**Nim in The Arcade!**](https://profhal.github.io/gamechancestrategy/nim.html)
 
 First, you may have noticed we didn't say anything about the number of sticks in the initial pile. That can be any positive numnber. As we will see, the probability of winning depends on the number of sticks to start. Thus, we will discuss results of agents playing games with piles varying between 4 and 99 sticks. 
 
@@ -50,7 +52,7 @@ Figure 2 shows the probability of NaiveRandom, going first, winning against each
   <img src="nr_vs_nc1_nc2_nc3.svg"
        alt="NaiveRandom vs NaiveConstantN win rates for NaiveRandom">
   <figcaption>
-    Win rate for NaiveRandom against NativeConstantN when going first.
+    Win rate for NaiveRandom against NativeConstantN when going first based on 100,000 games per starting pile.
   </figcaption>
 </figure>
 
@@ -60,7 +62,7 @@ Since seating order can affect the outcome of games, we also need to inspect the
   <img src="nc1_nc2_nc3_vs_nr.svg"
        alt="NaiveConstantN vs NaiveRandom win rates for NaiveRandom">
   <figcaption>
-    Win rate for NaiveRandom against NativeConstantN when going second.
+    Win rate for NaiveRandom against NativeConstantN when going second based on 100,000 games per starting pile.
   </figcaption>
 </figure>
 
@@ -76,9 +78,8 @@ Of course, we should also see how each NaiveConstant*N* agent performs against i
   </iframe>
 
   <figcaption>
-    First-player win probabilities for the three constant
-    strategies against one another, for initial pile sizes
-    4 through 99.
+    First-player win probabilities for the three constant strategies against one another, for initial pile sizes
+    4 through 99, based on 100,000 games per pile.
   </figcaption>
 </figure>
 
@@ -148,7 +149,7 @@ Figure 6 shows the performance data for M2 and M3.
 
 M4 is still dominant with NaiveConstant1 and M2 exhibiting fairly strong performances.
 
-## Looking Deeper
+## The Weakness of M4
 If you are familiar with Nim, you likely recognize M4 as being an optimal approach to playing. However, Figure 6 illustrates that it's not perfect. M4 can lose - and lose to much less sophisticated approaches. Figure 7 shows M4's performance against NaiveRandom over the varying piles in both playing positions. 
 
 <figure class="numbered" class="numbered">
@@ -173,3 +174,8 @@ If 4*n*=96, then *n*=24 and
 
 $$\text{P(NaiveRandom wins | 96 sticks)} = (\dfrac{1}{3})^{23} \approx 1.062208 \times 10^{-11}.$$
 
+
+## The Strength of M2 and NaiveConstant1
+The strength of M4's strategy is well understood. But what is it about M2 and NaiveConstant1 that makes them effective?
+
+Stay tuned...
