@@ -175,16 +175,16 @@ If $4n = 96$, then $n = 24$ and
 $$\text{P(NaiveRandom wins | 96 sticks)} = (\dfrac{1}{3})^{23} \approx 1.062208 \times 10^{-11}.$$
 
 
-## Understanding NaiveConstant1 and M2
-The strength of M4 is well-understood. It's probability of losing is directly related to the probability its opponent makes all the right decisions. We have seen the NaiveConstant1 and M2 are strong opponents as well. We would like to understand why.
+## Understanding Other Strategies
+The strength of M4 is well-understood. It's probability of losing is directly related to the probability its opponent makes all the right decisions. What can we say about the other agents. 
 
-We will start by analyzing how each of M4, NaiveConstant1, and M2 peform against NaiveRandom. To start, Figure 8 shows how each agent perfomed against NaiveRandom over varying pile sizes.
+We will start by analyzing how each strategy peforms against NaiveRandom. To start, Figure 8 shows how each agent perfomed against NaiveRandom over varying pile sizes.
 
 <figure id="fig-constant-strategies" class="numbered">
   <iframe
-    src="{{ 'nim_performance_interactive.html' }}"
+    src="{{ 'nim_agent_curves_interactive.html' }}"
     width="100%"
-    height="600"
+    height="840"
     style="border: none;"
     title="Nim Agent Performance Against NaiveRandom">
   </iframe>
@@ -196,34 +196,21 @@ We will start by analyzing how each of M4, NaiveConstant1, and M2 peform against
 
 
 ### The Secret Sauce
-We call leaving the pile of sticks in a multiple of 4 the *Secret Sauce*. As that is the main element of M4's strategy, it's reasonable to think that it might be something that regular application of the Secret Sauce emerges in the behaviors of NaiveConstant1 and M2. That isn't necessarily the case. Figure 9 shows how frequently each agent applied a sauce move when one was available against NaiveRandom over varying pile sizes.
+We call leaving the pile of sticks in a multiple of 4 the *Secret Sauce*. As that is the main element of M4's strategy, it's reasonable to think that regular application of the Secret Sauce might emerge in the behaviors of The other agents. That isn't necessarily the case. Figure 9 shows how frequently each agent applied a sauce move when one was available against NaiveRandom over varying pile sizes.
 
 <figure id="fig-constant-strategies" class="numbered">
   <iframe
-    src="{{ 'nim_sauce_interactive.html' }}"
+    src="{{ 'nim_sauce_all_agents_interactive.html' }}"
     width="100%"
-    height="600"
+    height="650"
     style="border: none;"
     title="Nim Sauce Adherence by Initial Pile Size">
   </iframe>
 
   <figcaption>
-     The graph shows how frequently each agent makes the move prescribed by the optimal M4 strategy when playing against NaiveRandom. Although NC1 and M2 both approach a 2/3 win rate, they follow the optimal strategy at markedly different rates. 
+     The graph shows how frequently each agent makes the move prescribed by the optimal M4 strategy when playing against NaiveRandom.
   </figcaption>
 </figure>
-
-In fact, for the upper end of the curves, Table 1 shows the two agents settle to two different rates. 
-
-| Sticks | NC1 adherence | M2 adherence |
-|--------|---------------|--------------|
-| 95	 | 35.37%	     | 61.32%       |
-| 96	 | 35.66%	     | 61.34%       |
-| 97	 | 36.40%	     | 61.29%       |
-| 98	 | 34.74%	     | 62.22%       |
-| 99	 | 35.29%	     | 61.27%       |
-
-{: .table-caption }
-Adherence to Secret Sauce moves for large piles
 
 This suggests that their success against NaiveRandom cannot be explained simply by how closely they imitate M4 with respect to the Secret Sauce.
 
