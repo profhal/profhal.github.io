@@ -14,7 +14,7 @@ First, you may have noticed we didn't say anything about the number of sticks in
 
 The cases where the starting number of sticks is less than $4$ are well understood: Since all agents are endgame aware, if there are less than $4$ sticks, the first agent to play will take all the sticks and win.
 
-## Playing Naively
+## 1. Playing Naively
 We begin with the simplest of agents: NaiveRandom. The agent plays by the following rule:
 
 ```
@@ -36,7 +36,7 @@ For the first experiment, we let NaiveRandom play against itself. The results ar
 
 Already, we see the impact of the starting number of sticks.
 
-## A First Strategy
+## 2. A First Strategy
 A natural next step a new player might attempt is simply taking a set number of sticks until the endgame. The agent that always takes $N$ sticks is called, NaiveConstant$N$. For example, NaiveConstant1 uses the following rule
 
 ```
@@ -83,7 +83,7 @@ Of course, we should also see how each NaiveConstant$N$ agent performs against i
   </figcaption>
 </figure>
 
-## Pile Residues
+## 3. Pile Residues
 The next step involves considering the state of the pile that is left for the opponent. Since we are taking $1-3$ sticks, this will leave the piles in residues $mod 4$. This brings us to our first Enthusiasts: EnthusiastResidue$N$ will make choices to leave the stick pile with residue $mod 4$. Thus, we have EnthusiastResidue0 (eR0), EnthusiastResidue1 (eR1), EnthusiastsResidue2 (eR2), and EnthusiastResidue3 (eR3). When multiple moves are available, the choice is random.
 
 <figure id="fig-constant-strategies" class="numbered">
@@ -104,7 +104,7 @@ Clearly, something stands out: leaving your opponent a pile containing a multipl
 
 Before exploring that apparent contradiction, we should explain why leaving your opponent a multiple of $4$ sticks is optimal. Recall that a player may remove $1$, $2$, or $3$ sticks on each turn, and the player who takes the last stick wins. If you leave your opponent a multiple of $4$, they must remove $1$, $2$, or $3$ sticks. You can then remove $3$, $2$, or $1$ sticks, respectively, so that the two moves together remove exactly $4$ sticks. This returns your opponent to another multiple of $4$. By repeating this process, you eventually leave your opponent with $4$ sticks. Whatever they remove, you can take the remaining sticks and win. Of course, this strategy requires that you first have an opportunity to leave a multiple of $4$. If you begin with a multiple of $4$ yourself, a sufficiently clever opponent can use the same strategy against you.
 
-## Piles of Other Multiples
+## 4. Piles of Other Multiples
 What we observed is leaving your opponent a pile that is a multiple of $4$ is advantageous. We will rename EnthusiastResidue0 to M4: attempt to leave the pile in a multiple of $4$. M4's decision structure is
 
 ```
@@ -149,7 +149,7 @@ Figure 6 shows the performance data for M2 and M3.
 
 M4 is still dominant with NaiveConstant1 and M2 exhibiting fairly strong performances.
 
-## The Weakness of M4
+## 5. The Weakness of M4
 If you are familiar with Nim, you likely recognize M4 as being an optimal approach to playing. However, Figure 6 illustrates that it's not perfect. M4 can lose - and lose to much less sophisticated approaches. Figure 7 shows M4's performance against NaiveRandom over the varying piles in both playing positions. 
 
 <figure class="numbered" class="numbered">
@@ -175,7 +175,7 @@ If $4n = 96$, then $n = 24$ and
 $$\text{P(NaiveRandom wins | 96 sticks)} = (\dfrac{1}{3})^{23} \approx 1.062208 \times 10^{-11}.$$
 
 
-## Understanding Other Strategies
+## 6. Understanding Other Strategies
 The strength of M4 is well-understood. It's probability of losing is directly related to the probability its opponent makes all the right decisions. What can we say about the other agents. 
 
 We will start by analyzing how each strategy peforms against NaiveRandom. To start, Figure 8 shows how each agent perfomed against NaiveRandom over varying pile sizes.
@@ -195,7 +195,7 @@ We will start by analyzing how each strategy peforms against NaiveRandom. To sta
 </figure>
 
 
-### The Secret Sauce
+### 6.1 The Secret Sauce
 We call leaving the pile of sticks in a multiple of 4 the *Secret Sauce*. As that is the main element of M4's strategy, it's reasonable to think that regular application of the Secret Sauce might emerge in the behaviors of The other agents. That isn't necessarily the case. Figure 9 shows how frequently each agent applied a sauce move when one was available against NaiveRandom over varying pile sizes.
 
 <figure id="fig-constant-strategies" class="numbered">

@@ -144,3 +144,24 @@ table.numbered-table {
     content: "Table " counter(table-number) ": ";
     font-weight: bold;
 }
+
+.chapter-content {
+    pre,
+    code,
+    .highlight,
+    .highlighter-rouge {
+        background-color: #eeeeee;//#f7f5f0;
+    }
+
+    pre {
+        border: 1px solid #999999;
+        border-radius: 6px;
+        padding: 1rem 1.25rem;
+        overflow-x: auto;
+    }
+
+    pre code {
+        border: none;
+        padding: 0;
+    }
+}
