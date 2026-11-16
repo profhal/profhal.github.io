@@ -24,6 +24,7 @@ figure.numbered {
   text-align: center;
   counter-increment: figure;
   margin: 2em auto;
+      margin-bottom: 3rem;
 }
 
 figure.numbered img {
@@ -128,4 +129,18 @@ table.numbered-table {
     border-top: 1px solid #ddd;
     margin-top: 3rem;
     padding-top: 1rem;
+}
+
+.chapter-content {
+    counter-reset: table-number;
+}
+
+.chapter-content table + p.table-caption {
+    counter-increment: table-number;
+    margin-bottom: 2rem;
+}
+
+.chapter-content table + p.table-caption::before {
+    content: "Table " counter(table-number) ": ";
+    font-weight: bold;
 }

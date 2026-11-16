@@ -2,17 +2,17 @@
 layout: chapter
 title: "Nim"
 subtitle: "Discovering an Incomplete Strategy"
-chapter: 1
+chapter: 2
 permalink: /learning-to-play/nim/
 ---
 
-Nim is a rather simple game. A pile of sticks is placed between two players. They take turns taking 1, 2, or 3 sticks. The player to pick up the last stick wins. Other versions of the game exist involving multiple piles or playing such that the person to pick up the last stick loses.
+Nim is a rather simple game. A pile of sticks is placed between two players. They take turns taking $1$, $2$, or $3$ sticks. The player to pick up the last stick wins. Other versions of the game exist involving multiple piles or playing such that the person to pick up the last stick loses.
 
 Go play [**Nim in The Arcade!**](https://profhal.github.io/gamechancestrategy/nim.html)
 
-First, you may have noticed we didn't say anything about the number of sticks in the initial pile. That can be any positive numnber. As we will see, the probability of winning depends on the number of sticks to start. Thus, we will discuss results of agents playing games with piles varying between 4 and 99 sticks. 
+First, you may have noticed we didn't say anything about the number of sticks in the initial pile. That can be any positive numnber. As we will see, the probability of winning depends on the number of sticks to start. Thus, we will discuss results of agents playing games with piles varying between $4$ and $99$ sticks. 
 
-The cases where the starting number of sticks is less than 4 are well understood: Since all agents are endgame aware, if there are less than 4 sticks, the first agent to play will take all the sticks and win.
+The cases where the starting number of sticks is less than $4$ are well understood: Since all agents are endgame aware, if there are less than $4$ sticks, the first agent to play will take all the sticks and win.
 
 ## Playing Naively
 We begin with the simplest of agents: NaiveRandom. The agent plays by the following rule:
@@ -37,7 +37,7 @@ For the first experiment, we let NaiveRandom play against itself. The results ar
 Already, we see the impact of the starting number of sticks.
 
 ## A First Strategy
-A natural next step a new player might attempt is simply taking a set number of sticks until the endgame. The agent that always takes *N* sticks is called, NaiveContsant*N*. For example, NaiveConstant1 uses the following rule
+A natural next step a new player might attempt is simply taking a set number of sticks until the endgame. The agent that always takes $N$ sticks is called, NaiveConstant$N$. For example, NaiveConstant1 uses the following rule
 
 ```
 if 3 or fewer sticks remain
@@ -46,7 +46,7 @@ else
    take 1
 ```
 
-Figure 2 shows the probability of NaiveRandom, going first, winning against each of the NaiveConstant*N*s. 
+Figure 2 shows the probability of NaiveRandom, going first, winning against each of the NaiveConstant$N$s. 
 
 <figure class="numbered">
   <img src="nr_vs_nc1_nc2_nc3.svg"
@@ -56,7 +56,7 @@ Figure 2 shows the probability of NaiveRandom, going first, winning against each
   </figcaption>
 </figure>
 
-Since seating order can affect the outcome of games, we also need to inspect the games where NaiveRandom goes second. Figure 3 shows the probability of NaiveRandom winning against NaiveConstant*N* when going second.
+Since seating order can affect the outcome of games, we also need to inspect the games where NaiveRandom goes second. Figure 3 shows the probability of NaiveRandom winning against NaiveConstant$N$ when going second.
 
 <figure class="numbered">
   <img src="nc1_nc2_nc3_vs_nr.svg"
@@ -66,7 +66,7 @@ Since seating order can affect the outcome of games, we also need to inspect the
   </figcaption>
 </figure>
 
-Of course, we should also see how each NaiveConstant*N* agent performs against itself and the other NaiveConstant*N* agents. Figure 4 provides interactive graphs illustrating the match ups (hover over the labels to isolate graphs).
+Of course, we should also see how each NaiveConstant$N$ agent performs against itself and the other NaiveConstant$N$ agents. Figure 4 provides interactive graphs illustrating the match ups (hover over the labels to isolate graphs).
 
 <figure id="fig-constant-strategies" class="numbered">
   <iframe
@@ -84,7 +84,7 @@ Of course, we should also see how each NaiveConstant*N* agent performs against i
 </figure>
 
 ## Pile Residues
-The next step involves considering the state of the pile that is left for the opponent. Since we are taking 1-3 sticks, this will leave the piles in residues mod 4. This brings us to our first Enthusiasts: EnthusiastResidue*N* will make choices to leave the stick pile with residue mod 4. Thus, we have EnthusiastResidue0 (eR0), EnthusiastResidue1 (eR1), EnthusiastsResidue2 (eR2), and EnthusiastResidue3 (eR3). When multiple moves are available, the choice is random.
+The next step involves considering the state of the pile that is left for the opponent. Since we are taking $1-3$ sticks, this will leave the piles in residues $mod 4$. This brings us to our first Enthusiasts: EnthusiastResidue$N$ will make choices to leave the stick pile with residue $mod 4$. Thus, we have EnthusiastResidue0 (eR0), EnthusiastResidue1 (eR1), EnthusiastsResidue2 (eR2), and EnthusiastResidue3 (eR3). When multiple moves are available, the choice is random.
 
 <figure id="fig-constant-strategies" class="numbered">
   <iframe
@@ -100,12 +100,12 @@ The next step involves considering the state of the pile that is left for the op
   </figcaption>
 </figure>
 
-Clearly, something stands out: leaving your opponent a pile containing a multiple of 4 sticks is a strong strategy. If you are familiar with Nim, you likely knew that. But the interesting thing we see here is that while it is an optimal strategy, it is not infallible. That is where things get interesting. Also, notice NaiveConstant1 performs reasonably well, too. Simplicity is not necessarily a weakness.
+Clearly, something stands out: leaving your opponent a pile containing a multiple of $4$ sticks is a strong strategy. If you are familiar with Nim, you likely knew that. But the interesting thing we see here is that while it is an optimal strategy, it is not infallible. That is where things get interesting. Also, notice NaiveConstant1 performs reasonably well, too. Simplicity is not necessarily a weakness.
 
-Before exploring that apparent contradiction, we should explain why leaving your opponent a multiple of 4 sticks is optimal. Recall that a player may remove 1, 2, or 3 sticks on each turn, and the player who takes the last stick wins. If you leave your opponent a multiple of 4, they must remove 1, 2, or 3 sticks. You can then remove 3, 2, or 1 sticks, respectively, so that the two moves together remove exactly 4 sticks. This returns your opponent to another multiple of 4. By repeating this process, you eventually leave your opponent with 4 sticks. Whatever they remove, you can take the remaining sticks and win. Of course, this strategy requires that you first have an opportunity to leave a multiple of 4. If you begin with a multiple of 4 yourself, a sufficiently clever opponent can use the same strategy against you.
+Before exploring that apparent contradiction, we should explain why leaving your opponent a multiple of $4$ sticks is optimal. Recall that a player may remove $1$, $2$, or $3$ sticks on each turn, and the player who takes the last stick wins. If you leave your opponent a multiple of $4$, they must remove $1$, $2$, or $3$ sticks. You can then remove $3$, $2$, or $1$ sticks, respectively, so that the two moves together remove exactly $4$ sticks. This returns your opponent to another multiple of $4$. By repeating this process, you eventually leave your opponent with $4$ sticks. Whatever they remove, you can take the remaining sticks and win. Of course, this strategy requires that you first have an opportunity to leave a multiple of $4$. If you begin with a multiple of $4$ yourself, a sufficiently clever opponent can use the same strategy against you.
 
 ## Piles of Other Multiples
-What we observed is leaving your opponent a pile that is a multiple of 4 is advantageous. We will rename EnthusiastResidue0 to M4: attempt to leave the pile in a multiple of 4. M4's decision structure is
+What we observed is leaving your opponent a pile that is a multiple of $4$ is advantageous. We will rename EnthusiastResidue0 to M4: attempt to leave the pile in a multiple of $4$. M4's decision structure is
 
 ```
 if sticksRemaining % 4 == 0
@@ -116,7 +116,7 @@ else
 
 Notice that M4 is endgame aware. 
 
-What about leaving the piles in multiples of other numbers? Define M*n* to be an agent that attempts to leave the pile in a multiple of *n*. M*n*'s decision is made in the following way
+What about leaving the piles in multiples of other numbers? Define M$n$ to be an agent that attempts to leave the pile in a multiple of $n$. M$n$'s decision is made in the following way
 
 ```
 if 3 or fewer sticks remain
@@ -129,7 +129,7 @@ else
     randomly take 1, 2, or 3 sticks
 ```
 
-We will consider two new agents: M2 and M3. We do not consider M*n* for *n* > 4. The reason has to do with the number of sticks a player can remove. To leave an opponent a multiple of *n*, a player must remove a number of sticks equal to the current pile's remainder modulo *n*. Since the legal moves are 1, 2, and 3, this is always possible for nonzero remainders when *n* is at most 4. But consider M5. If a pile contains 9 sticks, we would need to remove 4 sticks to leave a multiple of 5, which the rules prohibit. More generally, for any *n*>4, some nonzero remainders cannot be eliminated in a single move. Thus, M4 is the largest member of this family that can always reach its desired multiple from a pile that is not already a multiple of *n*.
+We will consider two new agents: M2 and M3. We do not consider M$n$ for $n > 4$. The reason has to do with the number of sticks a player can remove. To leave an opponent a multiple of $n$, a player must remove a number of sticks equal to the current pile's remainder modulo $n$. Since the legal moves are $1$, $2$, and $3$, this is always possible for nonzero remainders when $n$ is at most $4$. But consider M5. If a pile contains $9$ sticks, we would need to remove $4$ sticks to leave a multiple of $5$, which the rules prohibit. More generally, for any $n > 4$, some nonzero remainders cannot be eliminated in a single move. Thus, M4 is the largest member of this family that can always reach its desired multiple from a pile that is not already a multiple of $n$.
 
 Figure 6 shows the performance data for M2 and M3.
 
@@ -160,22 +160,71 @@ If you are familiar with Nim, you likely recognize M4 as being an optimal approa
   </figcaption>
 </figure>
 
-It's easy to explain. When *n* is not a multiple of 4 and M4 goes first, it controls the game as it's first move will leave a multiple of 4 and it opponent won't be able to recover. So, for piles that aren't a multiple of 4, M4 will always win when going first. When the pile is a multiple of 4 and M4 goes first, it has to leave the pile in a non-multiple of 4. NaiveRandom, on occasion, will make a series of decisions that always leave M4 a pile with a multiple of 4 and win. As the number of sticks increases, the probability NaiveRandom will not leave the pile in a multiple of 4 and M4 will seize control. 
+It's easy to explain. When $n$ is not a multiple of $4$ and M4 goes first, it controls the game as it's first move will leave a multiple of $4$ and it opponent won't be able to recover. So, for piles that aren't a multiple of $4$, M4 will always win when going first. When the pile is a multiple of $4$ and M4 goes first, it has to leave the pile in a non-multiple of $4$. NaiveRandom, on occasion, will make a series of decisions that always leave M4 a pile with a multiple of $4$ and win. As the number of sticks increases, the probability NaiveRandom will not leave the pile in a multiple of 4 increases and M4 will seize control. 
 
-When M4 goes second, we see the opposite behavior. If the pile starts on a multiple of 4, M4 will be able to seize control on its first move. For piles that are not a multple of 4, NaiveRandom has a chance to make the right series of moves and not concede control to M4. 
+When M4 goes second, we see the opposite behavior. If the pile starts on a multiple of $4$, M4 will be able to seize control on its first move. For piles that are not a multple of $4$, NaiveRandom has a chance to make the right series of moves and not concede control to M4. 
 
 Note that while the graphs suggest M4 eventually always wins, that is not the case. It's just that the probability of M4 losing is very small. The probabilities displayed in the graph are the resukt of playing 100,000 games. However, we can directly compute the probability.
 
-As an example, let's start with 4*n* sticks. In order for NaiveRandom to retain control, every two moves 4 sticks must be removed from the pile. This means the game will consist of each player taking 4*n*/4=*n* turns. As NaiveRandom is endgame aware, it has to make the correct decision *n*-1 times. Each decision is randomly choosing 1, 2, or 3 sticks with equal probabilty. That means, the probability NaiveRandom wins, or M4 loses, is
+As an example, let's start with $4n$ sticks. In order for NaiveRandom to retain control, every two moves 4 sticks must be removed from the pile. This means the game will consist of each player taking $4n/4 = n$ turns. As NaiveRandom is endgame aware, it has to make the correct decision $n$-1 times. Each decision is randomly choosing $1$, $2$, or $3$ sticks with equal probabilty. That means, the probability NaiveRandom wins, or M4 loses, is
 
 $$\text{P(NaiveRandom wins | 4n sticks)} = (\dfrac{1}{3})^{n-1}.$$
 
-If 4*n*=96, then *n*=24 and 
+If $4n = 96$, then $n = 24$ and 
 
 $$\text{P(NaiveRandom wins | 96 sticks)} = (\dfrac{1}{3})^{23} \approx 1.062208 \times 10^{-11}.$$
 
 
-## The Strength of M2 and NaiveConstant1
-The strength of M4's strategy is well understood. But what is it about M2 and NaiveConstant1 that makes them effective?
+## Understanding NaiveConstant1 and M2
+The strength of M4 is well-understood. It's probability of losing is directly related to the probability its opponent makes all the right decisions. We have seen the NaiveConstant1 and M2 are strong opponents as well. We would like to understand why.
 
-Stay tuned...
+We will start by analyzing how each of M4, NaiveConstant1, and M2 peform against NaiveRandom. To start, Figure 8 shows how each agent perfomed against NaiveRandom over varying pile sizes.
+
+<figure id="fig-constant-strategies" class="numbered">
+  <iframe
+    src="{{ 'nim_performance_interactive.html' }}"
+    width="100%"
+    height="600"
+    style="border: none;"
+    title="Nim Agent Performance Against NaiveRandom">
+  </iframe>
+
+  <figcaption>
+     The graph shows how each agent perfomed against NaiveRandom over varying pile sizes.
+  </figcaption>
+</figure>
+
+
+### The Secret Sauce
+We call leaving the pile of sticks in a multiple of 4 the *Secret Sauce*. As that is the main element of M4's strategy, it's reasonable to think that it might be something that regular application of the Secret Sauce emerges in the behaviors of NaiveConstant1 and M2. That isn't necessarily the case. Figure 9 shows how frequently each agent applied a sauce move when one was available against NaiveRandom over varying pile sizes.
+
+<figure id="fig-constant-strategies" class="numbered">
+  <iframe
+    src="{{ 'nim_sauce_interactive.html' }}"
+    width="100%"
+    height="600"
+    style="border: none;"
+    title="Nim Sauce Adherence by Initial Pile Size">
+  </iframe>
+
+  <figcaption>
+     The graph shows how frequently each agent makes the move prescribed by the optimal M4 strategy when playing against NaiveRandom. Although NC1 and M2 both approach a 2/3 win rate, they follow the optimal strategy at markedly different rates. 
+  </figcaption>
+</figure>
+
+In fact, for the upper end of the curves, Table 1 shows the two agents settle to two different rates. 
+
+| Sticks | NC1 adherence | M2 adherence |
+|--------|---------------|--------------|
+| 95	 | 35.37%	     | 61.32%       |
+| 96	 | 35.66%	     | 61.34%       |
+| 97	 | 36.40%	     | 61.29%       |
+| 98	 | 34.74%	     | 62.22%       |
+| 99	 | 35.29%	     | 61.27%       |
+
+{: .table-caption }
+Adherence to Secret Sauce moves for large piles
+
+This suggests that their success against NaiveRandom cannot be explained simply by how closely they imitate M4 with respect to the Secret Sauce.
+
+We have to dig futher. ***Stay tuned...***
