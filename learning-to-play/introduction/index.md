@@ -48,10 +48,10 @@ Together, The Arena and The Arcade make up *Atelier*
 ## What Atelier Isn't
 Atelier is not about perfection. It's about understanding how small changes impact an outcome. It was born out of wondering what strategy might be "good enough".
 
-In reflectin on game play, I realized, for me, games are supposed to be fun. I don't want to play on autopilot, but I also don't want to expend too much energy. So, given a game's mechanics, what might simply be *good enough*? I might characterize "good enough" as being an interesting opponent. 
+In reflection on game play, I realized, for me, games are supposed to be fun. I don't want to play on autopilot, but I also don't want to expend too much energy. So, given a game's mechanics, what might simply be *good enough*? I might characterize "good enough" as being an interesting opponent. 
 
 ## Agents
-At the heart of the study is the *agent*. An agent represents a player in a game and essentially is the embodiement of a strategy encoded into an algorithm implemented in such a way it fits into the framwork. There are four categories of agents: Naive, Enthusiast, Strategist, and Expert. 
+At the heart of the study is the *agent*. An agent represents a player in a game and essentially is the embodiment of a strategy encoded into an algorithm implemented in such a way it fits into the framework. There are four categories of agents: Naive, Enthusiast, Strategist, and Expert. 
 
 Keep in the mind, the agent category is more about the approach, not necessarily categories of performance. A Naive agent can beat a Strategist from time to time. On average, though, 
 
@@ -75,7 +75,7 @@ The Naive agent was born from physical game play. Students would first play a ga
 ### Enthusiast Agents
 The next level agents are called *Enthusiasts*. An Enthusiast agent recognizes important game mechanics and prioritizes them without necessarily understanding their strategic implications. Different Enthusiasts may prioritize different mechanics, representing different approaches to learning the game.
 
-For example, in Mancala there are two strategic moves: capture your opponents seeds and earn an extra turn. One Ethusiast might prioritize capturing seeds over the extra turn whereas another might do the opposite.
+For example, in Mancala there are two strategic moves: capture your opponents seeds and earn an extra turn. One Enthusiast might prioritize capturing seeds over the extra turn whereas another might do the opposite.
 
 ### Strategist Agents
 Agents that leverage the relationships between game mechanics and and their consequences are referred to as *Strategists*. Agents might attempt to anticipate consequences rather than simply react to opportunities.
@@ -85,5 +85,5 @@ For example, in Reversi, an Enthusiast might recognize edge squares are valuable
 ### Expert Agents
 The most sophisticated strategies are encoded in *Expert* agents. An Expert agent possesses a deep understanding of the game and employs an optimal or near-optimal strategy.
 
-We do not encounter many Expert agents in this journey. The goal was not to develop an Expert, but rarther to understand the impact of incremental changing strategic elements.
+We do not encounter many Expert agents in this journey. The goal was not to develop an Expert, but rather to understand the impact of incremental changing strategic elements.
 

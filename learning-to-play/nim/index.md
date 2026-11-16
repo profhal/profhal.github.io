@@ -10,7 +10,7 @@ Nim is a rather simple game. A pile of sticks is placed between two players. The
 
 Go play [**Nim in The Arcade!**](https://profhal.github.io/gamechancestrategy/nim.html)
 
-First, you may have noticed we didn't say anything about the number of sticks in the initial pile. That can be any positive numnber. As we will see, the probability of winning depends on the number of sticks to start. Thus, we will discuss results of agents playing games with piles varying between $4$ and $99$ sticks. 
+First, you may have noticed we didn't say anything about the number of sticks in the initial pile. That can be any positive number. As we will see, the probability of winning depends on the number of sticks to start. Thus, we will discuss results of agents playing games with piles varying between $4$ and $99$ sticks. 
 
 The cases where the starting number of sticks is less than $4$ are well understood: Since all agents are endgame aware, if there are less than $4$ sticks, the first agent to play will take all the sticks and win.
 
@@ -162,11 +162,11 @@ If you are familiar with Nim, you likely recognize M4 as being an optimal approa
 
 It's easy to explain. When $n$ is not a multiple of $4$ and M4 goes first, it controls the game as it's first move will leave a multiple of $4$ and it opponent won't be able to recover. So, for piles that aren't a multiple of $4$, M4 will always win when going first. When the pile is a multiple of $4$ and M4 goes first, it has to leave the pile in a non-multiple of $4$. NaiveRandom, on occasion, will make a series of decisions that always leave M4 a pile with a multiple of $4$ and win. As the number of sticks increases, the probability NaiveRandom will not leave the pile in a multiple of 4 increases and M4 will seize control. 
 
-When M4 goes second, we see the opposite behavior. If the pile starts on a multiple of $4$, M4 will be able to seize control on its first move. For piles that are not a multple of $4$, NaiveRandom has a chance to make the right series of moves and not concede control to M4. 
+When M4 goes second, we see the opposite behavior. If the pile starts on a multiple of $4$, M4 will be able to seize control on its first move. For piles that are not a multiple of $4$, NaiveRandom has a chance to make the right series of moves and not concede control to M4. 
 
-Note that while the graphs suggest M4 eventually always wins, that is not the case. It's just that the probability of M4 losing is very small. The probabilities displayed in the graph are the resukt of playing 100,000 games. However, we can directly compute the probability.
+Note that while the graphs suggest M4 eventually always wins, that is not the case. It's just that the probability of M4 losing is very small. The probabilities displayed in the graph are the result of playing 100,000 games. However, we can directly compute the probability.
 
-As an example, let's start with $4n$ sticks. In order for NaiveRandom to retain control, every two moves 4 sticks must be removed from the pile. This means the game will consist of each player taking $4n/4 = n$ turns. As NaiveRandom is endgame aware, it has to make the correct decision $n$-1 times. Each decision is randomly choosing $1$, $2$, or $3$ sticks with equal probabilty. That means, the probability NaiveRandom wins, or M4 loses, is
+As an example, let's start with $4n$ sticks. In order for NaiveRandom to retain control, every two moves 4 sticks must be removed from the pile. This means the game will consist of each player taking $4n/4 = n$ turns. As NaiveRandom is endgame aware, it has to make the correct decision $n$-1 times. Each decision is randomly choosing $1$, $2$, or $3$ sticks with equal probability. That means, the probability NaiveRandom wins, or M4 loses, is
 
 $$\text{P(NaiveRandom wins | 4n sticks)} = (\dfrac{1}{3})^{n-1}.$$
 
@@ -214,4 +214,4 @@ We call leaving the pile of sticks in a multiple of 4 the *Secret Sauce*. As tha
 
 This suggests that their success against NaiveRandom cannot be explained simply by how closely they imitate M4 with respect to the Secret Sauce.
 
-We have to dig futher. ***Stay tuned...***
+We have to dig further. ***Stay tuned...***
