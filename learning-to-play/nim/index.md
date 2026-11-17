@@ -1,16 +1,16 @@
 ---
 layout: chapter
 title: "Nim"
-subtitle: "Discovering an Incomplete Strategy"
+subtitle: "Understanding Incomplete Strategies"
 chapter: 2
 permalink: /learning-to-play/nim/
 ---
 
-Nim is a rather simple game. A pile of sticks is placed between two players. They take turns taking $1$, $2$, or $3$ sticks. The player to pick up the last stick wins. Other versions of the game exist involving multiple piles or playing such that the person to pick up the last stick loses.
+Nim is a rather simple game. A pile of sticks is placed between two players. The players take turns taking $1,$ $2,$ or $3$ sticks. The player to pick up the last stick wins. Other versions of the game exist involving multiple piles or playing such that the person to pick up the last stick loses.
 
 Go play [**Nim in The Arcade!**](https://profhal.github.io/gamechancestrategy/nim.html)
 
-First, you may have noticed we didn't say anything about the number of sticks in the initial pile. That can be any positive number. As we will see, the probability of winning depends on the number of sticks to start. Thus, we will discuss results of agents playing games with piles varying between $4$ and $99$ sticks. 
+You may have noticed we didn't say anything about the number of sticks in the initial pile. That can be any positive number. As we will see, the probability of winning depends on the initial number of sticks. Thus, we will examine and discuss results of agents playing games with piles varying between $4$ and $99$ sticks. 
 
 The cases where the starting number of sticks is less than $4$ are well understood: Since all agents are endgame aware, if there are less than $4$ sticks, the first agent to play will take all the sticks and win.
 
@@ -84,7 +84,7 @@ Of course, we should also see how each NaiveConstant$N$ agent performs against i
 </figure>
 
 ## 3. Pile Residues
-The next step involves considering the state of the pile that is left for the opponent. Since we are taking $1-3$ sticks, this will leave the piles in residues $mod 4$. This brings us to our first Enthusiasts: EnthusiastResidue$N$ will make choices to leave the stick pile with residue $mod 4$. Thus, we have EnthusiastResidue0 (eR0), EnthusiastResidue1 (eR1), EnthusiastsResidue2 (eR2), and EnthusiastResidue3 (eR3). When multiple moves are available, the choice is random.
+The next step involves considering the state of the pile that is left for the opponent. Since we are taking $1-3$ sticks, this will leave the piles in residues $\mod 4$. This brings us to our first Enthusiasts: EnthusiastResidue$N$ will make choices to leave the stick pile with residue $\mod 4$. Thus, we have EnthusiastResidue0 (eR0), EnthusiastResidue1 (eR1), EnthusiastsResidue2 (eR2), and EnthusiastResidue3 (eR3). When multiple moves are available, the choice is random.
 
 <figure id="fig-constant-strategies" class="numbered">
   <iframe
@@ -100,7 +100,7 @@ The next step involves considering the state of the pile that is left for the op
   </figcaption>
 </figure>
 
-Clearly, something stands out: leaving your opponent a pile containing a multiple of $4$ sticks is a strong strategy. If you are familiar with Nim, you likely knew that. But the interesting thing we see here is that while it is an optimal strategy, it is not infallible. That is where things get interesting. Also, notice NaiveConstant1 performs reasonably well, too. Simplicity is not necessarily a weakness.
+Clearly, something stands out: leaving your opponent a pile containing a multiple of $4$ sticks, residue $0$, is a strong strategy. If you are familiar with Nim, you likely knew that. But what we see here is that while it is an optimal strategy, it is not infallible. That is where things get interesting. Also, notice NaiveConstant1 performs reasonably well, too. Simplicity is not necessarily a weakness.
 
 Before exploring that apparent contradiction, we should explain why leaving your opponent a multiple of $4$ sticks is optimal. Recall that a player may remove $1$, $2$, or $3$ sticks on each turn, and the player who takes the last stick wins. If you leave your opponent a multiple of $4$, they must remove $1$, $2$, or $3$ sticks. You can then remove $3$, $2$, or $1$ sticks, respectively, so that the two moves together remove exactly $4$ sticks. This returns your opponent to another multiple of $4$. By repeating this process, you eventually leave your opponent with $4$ sticks. Whatever they remove, you can take the remaining sticks and win. Of course, this strategy requires that you first have an opportunity to leave a multiple of $4$. If you begin with a multiple of $4$ yourself, a sufficiently clever opponent can use the same strategy against you.
 
@@ -178,7 +178,7 @@ $$\text{P(NaiveRandom wins | 96 sticks)} = (\dfrac{1}{3})^{23} \approx 1.062208 
 ## 6. Understanding Other Strategies
 The strength of M4 is well-understood. It's probability of losing is directly related to the probability its opponent makes all the right decisions. What can we say about the other agents. 
 
-We will start by analyzing how each strategy peforms against NaiveRandom. To start, Figure 8 shows how each agent perfomed against NaiveRandom over varying pile sizes.
+We will start by analyzing how each strategy performs against NaiveRandom. To start, Figure 8 shows how each agent performed against NaiveRandom over varying pile sizes.
 
 <figure id="fig-constant-strategies" class="numbered">
   <iframe
@@ -190,7 +190,7 @@ We will start by analyzing how each strategy peforms against NaiveRandom. To sta
   </iframe>
 
   <figcaption>
-     The graph shows how each agent perfomed against NaiveRandom over varying pile sizes.
+     The graph shows how each agent performed against NaiveRandom over varying pile sizes.
   </figcaption>
 </figure>
 
@@ -214,4 +214,87 @@ We call leaving the pile of sticks in a multiple of 4 the *Secret Sauce*. As tha
 
 This suggests that their success against NaiveRandom cannot be explained simply by how closely they imitate M4 with respect to the Secret Sauce.
 
-We have to dig further. ***Stay tuned...***
+### 6.2 Slopping the Sauce
+Maybe the question lies within how an agent concedes perfect play. An agent's failure to maintain winning positions depends on
+
+- how frequently it encounters winning opportunities
+- how often it fails to exploit them. 
+
+We investigate these factors separately, examine their combined effect, and study how each contributes to changes in performance as the initial pile size increases.
+
+Let $n$ be the number of sticks in the pile and define
+
+- $O_{n}$ : the number of Secret Sauce opportunities
+- $M_{n}$ : the number of Secret Sauce opportunities missed
+- $G_{n}$ : the number of games played
+
+We the define the following
+
+- $o(n) = \dfrac{O_{n}}{G_{n}}$ : The average number of Secret Sauce opportunities per game
+- $c(n) = \dfrac{M_{n}}{O_{n}}$ : The fraction of Secret Sauce opportunities missed
+- $m(n) = \dfrac{M_{n}}{G_{n}}$ : The average number of missed sauce opportunities per game
+
+and have the following relationship,
+
+$$m(n) = c(n) \cdot o(n).$$
+
+Observing Nim's winning and losing positions follow a $\text{mod } 4$ pattern, we can define a growth rate over a four stick interval to reduce the influence of Nim's periodic structure.:
+
+$$g(n) = \dfrac{m(n + 4) - m(n)}{4}$$
+
+Expressing $m(n)$ in terms of $c(n)$ and $o(n)$ yields
+
+$$g(n) = \dfrac{c(n + 4)o(n + 4) - c(n)o(n)}{4}$$
+
+which can further be rewritten as
+
+$$g(n) = c(n + 4)\dfrac{o(n+4) - o(n)}{4} + o(n)\dfrac{c(n+4) - c(n)}{4},$$
+
+which is the discrete version of the product rule.
+
+Further, we can give names to the two terms in the growth function. Specifically, 
+
+$$g(n) = g_o(n) + g_c(n)$$
+
+where we define 
+
+- opportunity-driven growth
+
+$$g_o(n) = c(n + 4)\dfrac{o(n+4) - o(n)}{4}$$
+
+- concession-driven growth
+
+$$g_c(n) = o(n)\dfrac{c(n+4) - c(n)}{4}$$
+
+
+Figure 10 provides an interactive display of these various functions over varying pile sizes. Table 1 describes each metric is telling us and what to look for in the graphs depicted in Figure 10.
+
+
+<figure id="fig-constant-strategies" class="numbered">
+  <iframe
+    src="{{ 'nim_missed_sauce_rate_explorer.html' }}"
+    width="100%"
+    height="1200"
+    style="border: none;"
+    title="Nim Sauce Adherence by Initial Pile Size">
+  </iframe>
+
+  <figcaption>
+     Explore how Nim agents encounter and miss winning opportunities as pile size increases. Six interactive graphs examine concession fractions, opportunities per game, missed opportunities per game, and their rates of change, including the opportunity-driven $g_o(n)$ and concession-driven $g_c(n)$ contributions to overall growth $g(n)$.
+  </figcaption>
+</figure>
+
+
+
+| Metric | Question | What to look for in the graph |
+|--------|----------|-------------------------------|
+| $c(n)$  | When an agent has a winning opportunity, how often does it fail to exploit it? | A lower curve indicates an agent that more reliably preserves winning positions. A relatively flat curve suggests its concession fraction remains stable across pile sizes. A declining curve suggests it misses a smaller fraction of its opportunities as piles grow. |
+| $o(n)$   | How many winning opportunities does an agent encounter during an average game? | An increasing curve indicates that larger piles create more opportunities for the agent to make a winning move. Differences between agents may reflect how their strategies and opponents influence the positions they encounter. |
+| $m(n)$    | How many winning opportunities does an agent surrender during an average game? | Lower curves indicate fewer missed opportunities per game. An increasing curve may result from more opportunities, a higher concession fraction, or both. |
+| $g(n)$    | How quickly does the average number of missed opportunities change as the initial pile grows? | A positive value means missed opportunities per game increase over the four-stick interval. A negative value means they decrease. A curve approaching a positive constant suggests approximately linear growth along a modulo-four subsequence. |
+| $g_o(n)$ | How much of the change in missed opportunities comes from encountering more or fewer winning opportunities? | Positive values indicate that changes in opportunity frequency contribute to increasing missed opportunities. Larger values indicate a stronger contribution from this source. |
+| $g_o(n)$ | How much of the change in missed opportunities comes from changes in the fraction of opportunities conceded? | Positive values indicate that the concession fraction is increasing and contributing to more missed opportunities. Negative values indicate that a declining concession fraction is offsetting some of the growth caused by additional opportunities. |
+
+<p class="table-caption">The question each metric addresses and what to look for in the corresponding graphs.</p>
+
+### We continue to dig. ***Stay tuned...***

@@ -106,11 +106,13 @@ table.numbered-table {
 
 .chapter-content h2 {
     margin-top: 2.5rem;
+    font-size:2.0rem;
     color: #000033;
 }
 
 .chapter-content h3 {
     margin-top: 2rem;
+    font-size:1.5rem;
     color: #000033;
 }
 
@@ -164,4 +166,16 @@ table.numbered-table {
         border: none;
         padding: 0;
     }
+}
+
+table {
+    font-size: inherit;
+    font-family: inherit;
+}
+
+table th,
+table td {
+    font-family: inherit;
+    font-size: 0.9rem;
+    line-height: 1.5;
 }
