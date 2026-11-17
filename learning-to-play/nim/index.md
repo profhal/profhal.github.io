@@ -214,11 +214,11 @@ We call leaving the pile of sticks in a multiple of 4 the *Secret Sauce*. As tha
 
 This suggests that their success against NaiveRandom cannot be explained simply by how closely they imitate M4 with respect to the Secret Sauce.
 
-### 6.2 Slopping the Sauce
-Maybe the question lies within how an agent concedes perfect play. An agent's failure to maintain winning positions depends on
+### 6.2 Understanding Missed Secret Sauce Opportunities
+An agent's effectiveness doesn't relate only to the times it applies the Secret Sauce. An agent's failure to maintain winning positions depends on
 
 - how frequently it encounters winning opportunities
-- how often it fails to exploit them. 
+- how often it fails to exploit them 
 
 We investigate these factors separately, examine their combined effect, and study how each contributes to changes in performance as the initial pile size increases.
 
@@ -267,24 +267,7 @@ $$g_o(n) = c(n + 4)\dfrac{o(n+4) - o(n)}{4}$$
 $$g_c(n) = o(n)\dfrac{c(n+4) - c(n)}{4}$$
 
 
-Figure 10 provides an interactive display of these various functions over varying pile sizes. Table 1 describes each metric is telling us and what to look for in the graphs depicted in Figure 10.
-
-
-<figure id="fig-constant-strategies" class="numbered">
-  <iframe
-    src="{{ 'nim_missed_sauce_rate_explorer.html' }}"
-    width="100%"
-    height="1200"
-    style="border: none;"
-    title="Nim Sauce Adherence by Initial Pile Size">
-  </iframe>
-
-  <figcaption>
-     Explore how Nim agents encounter and miss winning opportunities as pile size increases. Six interactive graphs examine concession fractions, opportunities per game, missed opportunities per game, and their rates of change, including the opportunity-driven $g_o(n)$ and concession-driven $g_c(n)$ contributions to overall growth $g(n)$.
-  </figcaption>
-</figure>
-
-
+Table 1 describes each metric is telling us and what to look for in their graphs. Figure 10 provides an interactive display of these various functions for our suite of agents over varying pile sizes. 
 
 | Metric | Question | What to look for in the graph |
 |--------|----------|-------------------------------|
@@ -296,5 +279,23 @@ Figure 10 provides an interactive display of these various functions over varyin
 | $g_c(n)$ | How much of the change in missed opportunities comes from changes in the fraction of opportunities conceded? | Positive values indicate that the concession fraction is increasing and contributing to more missed opportunities. Negative values indicate that a declining concession fraction is offsetting some of the growth caused by additional opportunities. |
 
 <p class="table-caption">The question each metric addresses and what to look for in the corresponding graphs.</p>
+
+
+
+<figure id="fig-constant-strategies" class="numbered">
+  <iframe
+    src="{{ 'nim_missed_sauce_explorer.html' }}"
+    width="100%"
+    height="1200"
+    style="border: none;"
+    title="Nim: Understanding Missed Sauce Opportunities">
+  </iframe>
+
+  <figcaption>
+     Explore how Nim agents encounter and miss winning opportunities as pile size increases. Six interactive graphs examine concession fractions, opportunities per game, missed opportunities per game, and their rates of change, including the opportunity-driven $g_o(n)$ and concession-driven $g_c(n)$ contributions to overall growth $g(n)$.
+  </figcaption>
+</figure>
+
+
 
 ### We continue to dig. ***Stay tuned...***
